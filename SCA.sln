@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30503.244
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{60D96F1E-D312-45BE-9D36-2701203912B0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{10CDFED4-F4DD-4258-8DDC-9D7ACCFB3EFE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{209F4DE2-E7C9-4771-BF08-A6507B94FA52}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ativos", "Ativos", "{F6B5CDED-D862-4137-B126-9A2A1E4F7CDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCA.Ativos.API", "SCA.Ativos.API\SCA.Ativos.API.csproj", "{8B74DF76-E915-4171-BBAB-1883803E8CA2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8B74DF76-E915-4171-BBAB-1883803E8CA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B74DF76-E915-4171-BBAB-1883803E8CA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B74DF76-E915-4171-BBAB-1883803E8CA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B74DF76-E915-4171-BBAB-1883803E8CA2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{209F4DE2-E7C9-4771-BF08-A6507B94FA52} = {60D96F1E-D312-45BE-9D36-2701203912B0}
+		{F6B5CDED-D862-4137-B126-9A2A1E4F7CDD} = {209F4DE2-E7C9-4771-BF08-A6507B94FA52}
+		{8B74DF76-E915-4171-BBAB-1883803E8CA2} = {F6B5CDED-D862-4137-B126-9A2A1E4F7CDD}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {337FD41A-7FE7-40E5-8DB8-1837EF982F63}
+	EndGlobalSection
+EndGlobal
