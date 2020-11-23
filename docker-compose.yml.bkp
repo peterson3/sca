@@ -1,0 +1,38 @@
+version: '3.4'
+
+services:
+  sca.ativos.api:
+    image: ${DOCKER_REGISTRY-}scaativosapi
+    build:
+      context: .
+      dockerfile: SCA.Ativos.API/Dockerfile
+    ports:
+      - "2000:80"
+      - "2443:443"
+    networks:
+      - scanetwork
+  sca.barragens.api:
+    image: ${DOCKER_REGISTRY-}scabarragensapi
+    build:
+      context: .
+      dockerfile: SCA.Barragens.API/Dockerfile
+    ports:
+      - "2001:80"
+      - "2444:443"
+    networks:
+      - scanetwork
+  
+  sca.mvcapp:
+    image: ${DOCKER_REGISTRY-}scamvcapp
+    build:
+      context: .
+      dockerfile: SCA.MVCApp/Dockerfile
+    ports:
+      - "2002:80"
+      - "2445:443"
+    networks:
+      - scanetwork
+
+networks:
+  scanetwork:
+    driver: bridge

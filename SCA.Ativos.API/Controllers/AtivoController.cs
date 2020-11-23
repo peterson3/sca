@@ -1,9 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SCA.Ativos.API.Communication;
 using SCA.Ativos.API.Model;
+using SCA.IntegrationEvents.Ativo;
 
 namespace SCA.Ativos.API.Controllers
 {
@@ -12,16 +14,106 @@ namespace SCA.Ativos.API.Controllers
     public class AtivoController : ControllerBase
     {
         private readonly ILogger<AtivoController> _logger;
+        private readonly IAtivoRepository _ativoRepository;
+        private readonly ServiceBus _bus;
 
-        public AtivoController(ILogger<AtivoController> logger)
+        public AtivoController(ILogger<AtivoController> logger,
+                                IAtivoRepository ativoRepository)
         {
             _logger = logger;
+            _ativoRepository = ativoRepository;
+            _bus = new ServiceBus();
         }
 
         [HttpGet]
-        public IEnumerable<Ativo> Get()
+        [AllowAnonymous]
+        public Task<IEnumerable<Ativo>> RecuperarTodos()
         {
-            return new List<Ativo>();
+            return  _ativoRepository.ObterTodos();
         }
+
+
+        [HttpGet]
+        [Route("TipoAtivo")]
+        [AllowAnonymous]
+        public Task<IEnumerable<TipoAtivo>> RecuperarTodosTiposAtivos()
+        {
+            return _ativoRepository.ObterTodosTipos();
+        }
+
+        [HttpGet]
+        [Authorize(Roles ="manager, employee")]
+        [Route("{id}")]
+        public Task<Ativo> RecuperarPorId(int id)
+        {
+            var qmE = User.Identity.Name;
+            var oqE = User.Claims;
+
+            return _ativoRepository.ObterPorId(id);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("filtro")]
+        public Task<IEnumerable<Ativo>> RecuperarPorId([FromQuery] FiltroViewModel viewModel)
+        {
+            return _ativoRepository.ObterComFiltro(viewModel.filtro);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public void Cadastrar([FromBody]Ativo ativo)
+        {
+            _ativoRepository.Adicionar(ativo);
+            var ativoAdicionadoEvent = new AtivoAdicionadoEvent()
+            {
+                Id = ativo.Id,
+                Nome = ativo.Nome,
+                Categoria = ativo.Categoria,
+                DataCompra = ativo.DataCompra,
+                DataUltimaManutencao = ativo.DataUltimaManutencao,
+                Fornecedor = ativo.Fornecedor,
+                Identificador = ativo.Identificador,
+                Modelo = ativo.Modelo,
+                TipoId = ativo.TipoId
+            };
+            _bus.PublicarEvento<AtivoAdicionadoEvent>(ativoAdicionadoEvent);
+            
+        }
+
+        [HttpPut]
+        [AllowAnonymous]
+        public void Alterar([FromBody] Ativo ativo)
+        {
+            _ativoRepository.Alterar(ativo);
+            var ativoAlteradoEvent = new AtivoAlteradoEvent()
+            {
+                Id = ativo.Id,
+                Nome = ativo.Nome,
+                Categoria = ativo.Categoria,
+                DataCompra = ativo.DataCompra,
+                DataUltimaManutencao = ativo.DataUltimaManutencao,
+                Fornecedor = ativo.Fornecedor,
+                Identificador = ativo.Identificador,
+                Modelo = ativo.Modelo,
+                TipoId = ativo.TipoId
+            };
+            _bus.PublicarEvento<AtivoAlteradoEvent>(ativoAlteradoEvent);
+
+        }
+
+        [HttpDelete]
+        [AllowAnonymous]
+        [Route("{id}")]
+        public void Remover(int id)
+        {
+            _ativoRepository.Remover(id);
+
+        }
+    }
+
+    public class FiltroViewModel
+    {
+        public string filtro { get; set; }
     }
 }
