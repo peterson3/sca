@@ -35,11 +35,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SCA.MVCApp", "SCA.MVCApp\SC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Auth", "Auth", "{043464D7-C3BE-403B-87E9-9189D4175D4A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SCA.Auth.API", "..\SCA.Auth.API\SCA.Auth.API.csproj", "{E26FF1C7-67BA-4F2F-81BD-E065717B0E8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SCA.Auth.API", "SCA.Auth.API\SCA.Auth.API.csproj", "{E26FF1C7-67BA-4F2F-81BD-E065717B0E8A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sensors", "Sensors", "{8A1CBA69-1E65-42AA-B1E4-3A26AD817AC9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sensor", "..\Sensor\Sensor.csproj", "{E5E03A9A-4755-4BD2-9BE6-FA434A67A0DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sensor", "Sensor\Sensor.csproj", "{E5E03A9A-4755-4BD2-9BE6-FA434A67A0DA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WorkflowEngine", "WorkflowEngine", "{F870B769-8AE6-44B2-99AB-F1AF1885A33D}"
 EndProject
@@ -49,7 +49,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WF.Sample.Business", "SCA.W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WF.Sample.MsSql", "SCA.Workflow\WF.Sample.MsSql\WF.Sample.MsSql.csproj", "{BEFC0FE3-FDE3-44DB-9B31-EBDFC351B73C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "..\ApiGateway\ApiGateway.csproj", "{E6D83466-9D14-4FAF-9E02-0B755765ED67}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{E6D83466-9D14-4FAF-9E02-0B755765ED67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

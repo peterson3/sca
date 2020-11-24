@@ -1,5 +1,6 @@
 ﻿using MassTransit;
 using Microsoft.AspNetCore.SignalR;
+using MongoDB.Driver;
 using SCA.Barragens.API.DataStorage;
 using SCA.Barragens.API.HubConfig;
 using SCA.Barragens.API.Models;
@@ -10,20 +11,14 @@ using System.Threading.Tasks;
 
 namespace SCA.Barragens.API.Consumer
 {
-    public class BarragemConsumer : IConsumer<AtivoAdicionadoEvent>
+    public class BarragemConsumer : IConsumer<AtivoAdicionadoEvent>, IConsumer<AtivoAlteradoEvent>, IConsumer<AtivoExcluidoEvent>
     {
-        private readonly IHubContext<ChartHub> _hub;
 
-        public BarragemConsumer(IHubContext<ChartHub> hub)
-        {
-            _hub = hub;
-        }
         public Task Consume(ConsumeContext<AtivoAdicionadoEvent> context)
         {
             if (context.Message.TipoId == 1)
             {
                 var msg = context.Message;
-                //_hub.Clients.All.SendAsync("transferchartdata", msg);
                 MongoDbContext dbContext = new MongoDbContext();
 
                 var barragem = new Barragem()
@@ -39,10 +34,41 @@ namespace SCA.Barragens.API.Consumer
             return Task.CompletedTask;
         }
 
-        public Task Consume(ConsumeContext<SensorInfoAlteradoEvent> context)
+        public Task Consume(ConsumeContext<AtivoExcluidoEvent> context)
         {
             var msg = context.Message;
-            _hub.Clients.All.SendAsync("transfersensordata", msg);
+            MongoDbContext dbContext = new MongoDbContext();
+
+            var filter = Builders<Barragem>.Filter.Eq(b => b.Id, msg.Id);
+
+            dbContext.Barragens.DeleteOne(filter);
+
+            return Task.CompletedTask;
+
+        }
+
+        public Task Consume(ConsumeContext<AtivoAlteradoEvent> context)
+        {
+            
+            if (context.Message.TipoId == 1)
+            {
+                var msg = context.Message;
+                MongoDbContext dbContext = new MongoDbContext();
+
+                var barragem = new Barragem()
+                {
+                    Id = context.Message.Id,
+                    Nome = context.Message.Nome
+                };
+
+                var updateDefinition = Builders<Barragem>.Update
+                    .Set(u => u.Nome, msg.Nome );
+
+                var filter = Builders<Barragem>.Filter.Eq(b => b.Id, msg.Id);
+
+                dbContext.Barragens.UpdateOne(filter, updateDefinition);
+            }
+
             return Task.CompletedTask;
         }
     }

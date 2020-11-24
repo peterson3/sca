@@ -11,6 +11,7 @@ namespace SCA.Ativos.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize(Roles = "admin, engenheiro, consultor, analista")]
     public class AtivoController : ControllerBase
     {
         private readonly ILogger<AtivoController> _logger;
@@ -35,14 +36,12 @@ namespace SCA.Ativos.API.Controllers
 
         [HttpGet]
         [Route("TipoAtivo")]
-        [AllowAnonymous]
         public Task<IEnumerable<TipoAtivo>> RecuperarTodosTiposAtivos()
         {
             return _ativoRepository.ObterTodosTipos();
         }
 
         [HttpGet]
-        [Authorize(Roles ="manager, employee")]
         [Route("{id}")]
         public Task<Ativo> RecuperarPorId(int id)
         {
@@ -53,15 +52,13 @@ namespace SCA.Ativos.API.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         [Route("filtro")]
-        public Task<IEnumerable<Ativo>> RecuperarPorId([FromQuery] FiltroViewModel viewModel)
+        public Task<IEnumerable<Ativo>> RecuperarFiltrado([FromQuery] FiltroViewModel viewModel)
         {
             return _ativoRepository.ObterComFiltro(viewModel.filtro);
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public void Cadastrar([FromBody]Ativo ativo)
         {
             _ativoRepository.Adicionar(ativo);
@@ -82,7 +79,6 @@ namespace SCA.Ativos.API.Controllers
         }
 
         [HttpPut]
-        [AllowAnonymous]
         public void Alterar([FromBody] Ativo ativo)
         {
             _ativoRepository.Alterar(ativo);
@@ -103,11 +99,16 @@ namespace SCA.Ativos.API.Controllers
         }
 
         [HttpDelete]
-        [AllowAnonymous]
         [Route("{id}")]
         public void Remover(int id)
         {
             _ativoRepository.Remover(id);
+            var ativoAlteradoEvent = new AtivoExcluidoEvent()
+            {
+                Id = id
+            };
+
+            _bus.PublicarEvento<AtivoExcluidoEvent>(ativoAlteradoEvent);
 
         }
     }

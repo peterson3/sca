@@ -51,6 +51,7 @@ namespace SCA.Barragens.API
 
             services.AddControllers();
 
+
             services.AddMassTransit(x =>
             {
                 x.AddConsumer<BarragemConsumer>(); 
