@@ -9,9 +9,6 @@
     <DockerServiceName>sca.barragens.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="docker-compose - Cópia.override.yml">
-      <DependentUpon>docker-compose.yml.bkp</DependentUpon>
-    </None>
     <None Include="docker-compose.yml" />
     <None Include="docker-compose.bkp.override.yml">
       <DependentUpon>docker-compose.yml.bkp</DependentUpon>
