@@ -26,7 +26,7 @@ namespace Sensor
                 bus.PublicarEvento<SensorInfoAlteradoEvent>(evento);
                 //ServicoInteg.Enviar(info);
                 Console.WriteLine(info.ToString());
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(10000);
             }
         }
     }

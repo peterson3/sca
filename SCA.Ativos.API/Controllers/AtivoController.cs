@@ -11,7 +11,6 @@ namespace SCA.Ativos.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize(Roles = "admin, engenheiro, consultor, analista")]
     public class AtivoController : ControllerBase
     {
         private readonly ILogger<AtivoController> _logger;
@@ -35,6 +34,7 @@ namespace SCA.Ativos.API.Controllers
 
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("TipoAtivo")]
         public Task<IEnumerable<TipoAtivo>> RecuperarTodosTiposAtivos()
         {
