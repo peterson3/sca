@@ -19,24 +19,41 @@
       "UpstreamPathTemplate": "/ativosService",
       "ServiceName": "AtivosService",
       "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "Ativos",
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 3,
         "DurationOfBreak": 10000,
         "TimeoutValue": 5000
       },
       "FileCacheOptions": { "TtlSeconds": 15 }
-    },{
+    },
+    {
       "DownstreamPathTemplate": "/usuario/{method}",
       "DownstreamScheme": "https",
       "UpstreamPathTemplate": "/authService/{method}",
       "ServiceName": "AuthService",
-      "UpstreamHttpMethod": [ "Get","Post"],
+      "UpstreamHttpMethod": [ "Get", "Post" ],
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 3,
         "DurationOfBreak": 10000,
         "TimeoutValue": 5000
       },
       "FileCacheOptions": { "TtlSeconds": 15 }
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "Ativos",
+      "Config": [
+        {
+          "Name": "Ativos API",
+          "Version": "v1",
+          "Service": {
+            "Name": "AtivosService",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
     }
   ],
   "GlobalConfiguration": {
