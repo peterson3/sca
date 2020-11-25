@@ -12,6 +12,7 @@ using SCA.Ativos.API.Controllers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Steeltoe.Discovery.Client;
 
 namespace SCA.Ativos.API
 {
@@ -79,6 +80,9 @@ namespace SCA.Ativos.API
                 c.IncludeXmlComments(caminhoXmlDoc);
             });
 
+            services.AddDiscoveryClient(Configuration);
+
+
             services.AddScoped<IAtivoRepository, AtivoRepository>();
             services.AddScoped<AtivoContext>();
             services.AddCors(options =>
@@ -90,8 +94,9 @@ namespace SCA.Ativos.API
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials()
-                        .WithOrigins("http://localhost:4200");
-                    });
+                        .WithOrigins("http://localhost:4200")
+                        .WithOrigins("http://localhost:8761");
+                   });
             });
 
 
@@ -106,10 +111,15 @@ namespace SCA.Ativos.API
             }
 
             app.UseHttpsRedirection();
+            
+            app.UseCors("AllowAll");
+
+
+            app.UseDiscoveryClient();
+
 
             app.UseRouting();
 
-            app.UseCors("AllowAll");
 
             app.UseAuthentication();
 

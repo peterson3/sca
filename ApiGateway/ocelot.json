@@ -12,6 +12,31 @@
         "TimeoutValue": 5000
       },
       "FileCacheOptions": { "TtlSeconds": 15 }
+    },
+    {
+      "DownstreamPathTemplate": "/ativo",
+      "DownstreamScheme": "https",
+      "UpstreamPathTemplate": "/ativosService",
+      "ServiceName": "AtivosService",
+      "UpstreamHttpMethod": [ "Get" ],
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 3,
+        "DurationOfBreak": 10000,
+        "TimeoutValue": 5000
+      },
+      "FileCacheOptions": { "TtlSeconds": 15 }
+    },{
+      "DownstreamPathTemplate": "/usuario/{method}",
+      "DownstreamScheme": "https",
+      "UpstreamPathTemplate": "/authService/{method}",
+      "ServiceName": "AuthService",
+      "UpstreamHttpMethod": [ "Get","Post"],
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 3,
+        "DurationOfBreak": 10000,
+        "TimeoutValue": 5000
+      },
+      "FileCacheOptions": { "TtlSeconds": 15 }
     }
   ],
   "GlobalConfiguration": {

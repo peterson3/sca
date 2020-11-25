@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using SCA.Auth.API.Controllers;
 using SCA.Auth.API.Repository;
+using Steeltoe.Discovery.Client;
 
 namespace SCA.Auth.API
 {
@@ -26,6 +27,8 @@ namespace SCA.Auth.API
         {
             services.AddCors();
             services.AddControllers();
+            services.AddDiscoveryClient(Configuration);
+
 
             services.AddDbContext<AuthContext>(options =>
     options.UseSqlServer(Configuration.GetConnectionString("AuthConnection")));
@@ -67,6 +70,7 @@ namespace SCA.Auth.API
 
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
+            app.UseDiscoveryClient();
             app.UseRouting();
 
             app.UseAuthentication();
