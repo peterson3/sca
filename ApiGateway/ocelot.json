@@ -5,7 +5,7 @@
       "DownstreamScheme": "https",
       "UpstreamPathTemplate": "/barragemService",
       "ServiceName": "BarragemService",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": [ "Get", "Post", "Options" ],
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 3,
         "DurationOfBreak": 10000,
@@ -18,7 +18,7 @@
       "DownstreamScheme": "https",
       "UpstreamPathTemplate": "/ativosService",
       "ServiceName": "AtivosService",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": [ "Get", "Post", "Options" ],
       "SwaggerKey": "Ativos",
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 3,
@@ -32,7 +32,7 @@
       "DownstreamScheme": "https",
       "UpstreamPathTemplate": "/authService/{method}",
       "ServiceName": "AuthService",
-      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "UpstreamHttpMethod": [ "Get", "Post", "Options" ],
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 3,
         "DurationOfBreak": 10000,
