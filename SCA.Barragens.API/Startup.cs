@@ -4,11 +4,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.PlatformAbstractions;
+using Microsoft.OpenApi.Models;
 using SCA.Barragens.API.Consumer;
 using SCA.Barragens.API.DataStorage;
 using SCA.Barragens.API.HubConfig;
 using Steeltoe.Discovery.Client;
 using System;
+using System.IO;
 
 namespace SCA.Barragens.API
 {
@@ -31,18 +34,46 @@ namespace SCA.Barragens.API
             MongoDbContext.DatabaseName = Configuration.GetSection("MongoConnection:Database").Value;
             MongoDbContext.IsSSL = Convert.ToBoolean(this.Configuration.GetSection("MongoConnection:IsSSL").Value);
 
-            services.AddCors(options =>
+            services.AddSwaggerGen(c =>
             {
-                options.AddPolicy("CorsPolicy", builder => {
-                    builder
-                    .WithOrigins("http://localhost:4200")
-                    .WithOrigins("http://localhost:8761")
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials();
+                c.SwaggerDoc("v1",
+                    new OpenApiInfo
+                    {
+                        Title = "Barragens",
+                        Version = "v1",
+                        Description = "API REST criada com o ASP.NET Core",
+                        Contact = new OpenApiContact
+                        {
+                            Name = "Peterson Andrade",
+                            Url = new System.Uri("https://github.com/peterson3")
+                        }
                     });
 
+                string caminhoAplicacao =
+                    PlatformServices.Default.Application.ApplicationBasePath;
+                string nomeAplicacao =
+                    PlatformServices.Default.Application.ApplicationName;
+                string caminhoXmlDoc =
+                    Path.Combine(caminhoAplicacao, $"{nomeAplicacao}.xml");
+
+                c.IncludeXmlComments(caminhoXmlDoc);
             });
+
+
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("CorsPolicy", builder => {
+            //        builder
+            //        .WithOrigins("http://localhost:4200")
+            //        .WithOrigins("http://localhost:8761")
+            //        .WithOrigins("http://localhost:59354")
+            //        .WithOrigins("http://localhost:59354/barragemService")
+            //        .AllowAnyMethod()
+            //        .AllowAnyHeader()
+            //        .AllowCredentials();
+            //        });
+
+            //});
 
             services.AddSignalR();
 
@@ -79,6 +110,20 @@ namespace SCA.Barragens.API
 
 
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder =>
+                    {
+                        builder
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials()
+                        .WithOrigins("http://localhost:4200")
+                        .WithOrigins("http://localhost:8761");
+                    });
+            });
+
 
             //var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
             //{
@@ -105,11 +150,15 @@ namespace SCA.Barragens.API
                 app.UseDeveloperExceptionPage();
             }
 
-           
 
-            app.UseCors("CorsPolicy");
+
+            //app.UseCors("CorsPolicy");
+
 
             app.UseHttpsRedirection();
+
+            app.UseCors("AllowAll");
+
 
             app.UseDiscoveryClient();
 
@@ -123,6 +172,14 @@ namespace SCA.Barragens.API
                 endpoints.MapControllers();
                 endpoints.MapHub<ChartHub>("/charts");
                 endpoints.MapHub<SensorHub>("/sensor");
+            });
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json",
+                    "Barragens");
             });
 
 

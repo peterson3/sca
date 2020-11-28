@@ -13,5 +13,6 @@ namespace SCA.Ativos.API.Controllers
         void Alterar(Ativo ativo);
         Task<IEnumerable<Ativo>> ObterComFiltro(string filtro);
         void Remover(int id);
+        void Adicionar(Manutencao manutencao);
     }
 }

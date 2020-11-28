@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SCA.Ativos.API.Communication;
 using SCA.Ativos.API.Model;
+using SCA.IntegrationEvents.Alert;
 using SCA.IntegrationEvents.Ativo;
 
 namespace SCA.Ativos.API.Controllers
@@ -33,9 +34,8 @@ namespace SCA.Ativos.API.Controllers
         }
 
 
-        [HttpGet]
+        [HttpGet("TipoAtivo")]
         [AllowAnonymous]
-        [Route("TipoAtivo")]
         public Task<IEnumerable<TipoAtivo>> RecuperarTodosTiposAtivos()
         {
             return _ativoRepository.ObterTodosTipos();
@@ -111,6 +111,18 @@ namespace SCA.Ativos.API.Controllers
             _bus.PublicarEvento<AtivoExcluidoEvent>(ativoAlteradoEvent);
 
         }
+
+
+        [HttpPost]
+        [Route("{ativoId}/manutencao")]
+        public async void CadastrarManutencao(int ativoId, [FromBody] Manutencao manutencao)
+        {
+            var ativo = await _ativoRepository.ObterPorId(ativoId);
+            manutencao.Ativo = ativo;
+            _ativoRepository.Adicionar(manutencao);
+        }
+
+        
     }
 
     public class FiltroViewModel

@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Steeltoe.Discovery.Client;
+using Microsoft.Net.Http.Headers;
 
 namespace SCA.Ativos.API
 {
@@ -28,7 +29,6 @@ namespace SCA.Ativos.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
             
             var key = Encoding.ASCII.GetBytes(Settings.Secret);
 
@@ -60,7 +60,7 @@ namespace SCA.Ativos.API
                 c.SwaggerDoc("v1",
                     new OpenApiInfo
                     {
-                        Title = "Cadastro de Ativos",
+                        Title = "Ativos",
                         Version = "v1",
                         Description = "API REST criada com o ASP.NET Core",
                         Contact = new OpenApiContact
@@ -91,13 +91,18 @@ namespace SCA.Ativos.API
                     builder =>
                     {
                         builder
-                        .AllowAnyMethod()
+                        .WithOrigins("http://localhost:4200")
                         .AllowAnyHeader()
                         .AllowCredentials()
-                        .WithOrigins("http://localhost:4200")
-                        .WithOrigins("http://localhost:8761");
-                   });
+                        .AllowAnyMethod();
+                    });
             });
+
+            services.AddControllers()
+                .AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
+
 
 
         }
@@ -105,18 +110,36 @@ namespace SCA.Ativos.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // global cors policy
+            app.UseCors(options=>
+            {
+                options
+                .WithOrigins("http://localhost:4200",
+                "http://localhost:4200/",
+                "https://localhost:4200",
+                "https://localhost:4200/",
+                "http://localhost:59354",
+                "http://localhost:59354/",
+                "https://localhost:59354",
+                "https://localhost:59354/")
+                        .AllowAnyHeader()
+                        .AllowCredentials()
+                        .AllowAnyMethod();
+            });
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
             app.UseHttpsRedirection();
-            
-            app.UseCors("AllowAll");
+
+
+            //app.UseCors("AllowAll");
 
 
             app.UseDiscoveryClient();
-
 
             app.UseRouting();
 
@@ -135,7 +158,7 @@ namespace SCA.Ativos.API
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json",
-                    "Cadastro de Ativos");
+                    "Ativos");
             });
         }
     }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SCA.Ativos.API.Model;
 
 namespace SCA.Ativos.API.Migrations
 {
     [DbContext(typeof(AtivoContext))]
-    partial class AtivoContextModelSnapshot : ModelSnapshot
+    [Migration("20201128195420_AdicManutencao")]
+    partial class AdicManutencao
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

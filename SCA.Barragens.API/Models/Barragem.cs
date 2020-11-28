@@ -16,7 +16,7 @@ namespace SCA.Barragens.API.Models
         public int Id { get; set; }
         public string Nome { get; set; }
 
-        public int VolumeMax { get; set; }
+        public double VolumeMax { get; set; }
 
         public double Lat { get; set; }
         public double Long { get; set; }

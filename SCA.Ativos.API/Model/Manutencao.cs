@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace SCA.Ativos.API.Model
@@ -10,5 +11,11 @@ namespace SCA.Ativos.API.Model
 
         [Required]
         public DateTime Data { get; set; }
+
+        public bool IsRealizada { get; set; }
+
+        [JsonIgnore]
+        public Ativo Ativo { get; set; }
+
     }
 }

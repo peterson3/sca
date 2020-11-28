@@ -21,6 +21,12 @@ namespace SCA.Ativos.API.Controllers
             _context.SaveChanges();
         }
 
+        public void Adicionar(Manutencao manutencao)
+        {
+            _context.Manutencoes.Add(manutencao);
+            _context.SaveChanges();
+        }
+
         public void Alterar(Ativo ativo)
         {
             var atv = _context.Ativos
@@ -33,14 +39,28 @@ namespace SCA.Ativos.API.Controllers
 
         public async Task<IEnumerable<Ativo>> ObterComFiltro(string filtro)
         {
-            return await _context.Ativos.Where(x=> x.Nome.ToLower().Contains(filtro.ToLower())).ToListAsync();
+            filtro = filtro.ToLower();
+
+            return await _context.Ativos.Include(a => a.Tipo).Where(
+                x=> 
+                x.Nome.ToLower().Contains(filtro)
+                || x.Categoria.ToLower().Contains(filtro)
+                || x.Id.ToString().ToLower().Contains(filtro)
+                || x.Modelo.ToLower().Contains(filtro)
+                || x.Tipo.Descricao.ToLower().Contains(filtro)
+                || x.Identificador.ToLower().Contains(filtro)
+                || x.Fornecedor.ToLower().Contains(filtro)
+                )
+                .ToListAsync();
         }
 
         public Task<Ativo> ObterPorId(int id)
         {
             var ativo = _context.Ativos
+                .Where(x=> x.Id == id)
                 .Include(a=> a.Tipo)
-                .Where(a => a.Id == id).FirstOrDefault();
+                .Include(b=> b.Manutencoes)
+                .FirstOrDefault();
             //var manutencaos = ativo.Manutencoes;
             return Task.FromResult(ativo);
 
@@ -48,7 +68,7 @@ namespace SCA.Ativos.API.Controllers
 
         public async Task<IEnumerable<Ativo>> ObterTodos()
         {
-            return await _context.Ativos.AsNoTracking().ToListAsync();
+            return await _context.Ativos.Include(b => b.Manutencoes).Include(t=> t.Tipo).AsNoTracking().ToListAsync();
         }
 
         public async Task<IEnumerable<TipoAtivo>> ObterTodosTipos()

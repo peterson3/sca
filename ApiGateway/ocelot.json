@@ -1,11 +1,26 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/barragem",
+      "DownstreamPathTemplate": "/barragem",
       "DownstreamScheme": "https",
       "UpstreamPathTemplate": "/barragemService",
       "ServiceName": "BarragemService",
-      "UpstreamHttpMethod": [ "Get", "Post", "Options" ],
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Options" ],
+      "SwaggerKey": "Barragens",
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 3,
+        "DurationOfBreak": 10000,
+        "TimeoutValue": 5000
+      },
+      "FileCacheOptions": { "TtlSeconds": 15 }
+    },
+    {
+      "DownstreamPathTemplate": "/barragem/{method}",
+      "DownstreamScheme": "https",
+      "UpstreamPathTemplate": "/barragemService/{method}",
+      "ServiceName": "BarragemService",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Options" ],
+      "SwaggerKey": "Barragens",
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 3,
         "DurationOfBreak": 10000,
@@ -18,7 +33,21 @@
       "DownstreamScheme": "https",
       "UpstreamPathTemplate": "/ativosService",
       "ServiceName": "AtivosService",
-      "UpstreamHttpMethod": [ "Get", "Post", "Options" ],
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Options" ],
+      "SwaggerKey": "Ativos",
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 3,
+        "DurationOfBreak": 10000,
+        "TimeoutValue": 5000
+      },
+      "FileCacheOptions": { "TtlSeconds": 15 }
+    },
+    {
+      "DownstreamPathTemplate": "/ativo/{method}",
+      "DownstreamScheme": "https",
+      "UpstreamPathTemplate": "/ativosService/{method}",
+      "ServiceName": "AtivosService",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Options" ],
       "SwaggerKey": "Ativos",
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 3,
@@ -32,7 +61,8 @@
       "DownstreamScheme": "https",
       "UpstreamPathTemplate": "/authService/{method}",
       "ServiceName": "AuthService",
-      "UpstreamHttpMethod": [ "Get", "Post", "Options" ],
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Options" ],
+      "SwaggerKey": "Auth",
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 3,
         "DurationOfBreak": 10000,
@@ -50,6 +80,32 @@
           "Version": "v1",
           "Service": {
             "Name": "AtivosService",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "Barragens",
+      "Config": [
+        {
+          "Name": "Barragens API",
+          "Version": "v1",
+          "Service": {
+            "Name": "BarragemService",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "Auth",
+      "Config": [
+        {
+          "Name": "Auth API",
+          "Version": "v1",
+          "Service": {
+            "Name": "AuthService",
             "Path": "/swagger/v1/swagger.json"
           }
         }
