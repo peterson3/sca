@@ -27,7 +27,7 @@ namespace SCA.Ativos.API.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize(Roles = "admin")]
         public Task<IEnumerable<Ativo>> RecuperarTodos()
         {
             return  _ativoRepository.ObterTodos();
@@ -42,6 +42,7 @@ namespace SCA.Ativos.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         [Route("{id}")]
         public Task<Ativo> RecuperarPorId(int id)
         {
