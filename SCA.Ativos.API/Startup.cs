@@ -139,7 +139,7 @@ namespace SCA.Ativos.API
             //app.UseCors("AllowAll");
 
 
-            app.UseDiscoveryClient();
+            //app.UseDiscoveryClient();
 
             app.UseRouting();
 

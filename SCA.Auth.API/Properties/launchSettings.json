@@ -16,7 +16,7 @@
       },
       "applicationUrl": "https://localhost:44375;http://localhost:51416"
     },
-    "Docker (1)": {
+    "Docker": {
       "commandName": "Docker",
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
       "publishAllPorts": true,
