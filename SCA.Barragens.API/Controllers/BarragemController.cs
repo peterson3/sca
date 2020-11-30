@@ -26,7 +26,7 @@ namespace SCA.Barragens.API.Controllers
 
 
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize(Roles = "admin")]
         public Task<List<Barragem>> Get()
         {
             MongoDbContext dbContext = new MongoDbContext();
@@ -34,7 +34,7 @@ namespace SCA.Barragens.API.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize(Roles = "admin")]
         [Route("filtro")]
         public Task<List<Barragem>> RecuperarFiltrado([FromQuery] FiltroViewModel viewModel)
         {
@@ -45,7 +45,7 @@ namespace SCA.Barragens.API.Controllers
 
 
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize(Roles = "admin")]
         public void Alterar([FromBody]Barragem barragem)
         {
             MongoDbContext dbContext = new MongoDbContext();
@@ -61,7 +61,7 @@ namespace SCA.Barragens.API.Controllers
         }
 
         [HttpPost("alertar")]
-        [AllowAnonymous]
+        [Authorize(Roles = "admin")]
         public void Alertar([FromBody] AlertaViewModel viewModel)
         {
             var alertarCommand = new AlertarCommand() { Mensagem = viewModel.Mensagem };

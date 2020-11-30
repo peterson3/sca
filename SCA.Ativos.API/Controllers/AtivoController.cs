@@ -35,7 +35,7 @@ namespace SCA.Ativos.API.Controllers
 
 
         [HttpGet("TipoAtivo")]
-        [AllowAnonymous]
+        [Authorize(Roles = "admin")]
         public Task<IEnumerable<TipoAtivo>> RecuperarTodosTiposAtivos()
         {
             return _ativoRepository.ObterTodosTipos();
@@ -53,6 +53,7 @@ namespace SCA.Ativos.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         [Route("filtro")]
         public Task<IEnumerable<Ativo>> RecuperarFiltrado([FromQuery] FiltroViewModel viewModel)
         {
@@ -60,6 +61,7 @@ namespace SCA.Ativos.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public void Cadastrar([FromBody]Ativo ativo)
         {
             _ativoRepository.Adicionar(ativo);
@@ -80,6 +82,7 @@ namespace SCA.Ativos.API.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "admin")]
         public void Alterar([FromBody] Ativo ativo)
         {
             _ativoRepository.Alterar(ativo);
@@ -100,6 +103,7 @@ namespace SCA.Ativos.API.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "admin")]
         [Route("{id}")]
         public void Remover(int id)
         {
@@ -115,6 +119,7 @@ namespace SCA.Ativos.API.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         [Route("{ativoId}/manutencao")]
         public async void CadastrarManutencao(int ativoId, [FromBody] Manutencao manutencao)
         {
