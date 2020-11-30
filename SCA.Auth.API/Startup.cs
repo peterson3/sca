@@ -94,7 +94,8 @@ namespace SCA.Auth.API
                         .AllowAnyHeader()
                         .AllowCredentials()
                         .WithOrigins("http://localhost:4200")
-                        .WithOrigins("http://localhost:8761");
+                        .WithOrigins("http://localhost:8761")
+                        .WithOrigins("http://scambiental.azurewebsites.net");
                     });
             });
         }
