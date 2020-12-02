@@ -27,7 +27,6 @@ namespace SCA.Ativos.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "admin")]
         public Task<IEnumerable<Ativo>> RecuperarTodos()
         {
             return  _ativoRepository.ObterTodos();
