@@ -10,13 +10,17 @@ namespace Sensor
         {
 
            var bus = new ServiceBus();
+            Console.WriteLine("Informe o Id da Barragem:");
+            var idBarragem = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Informe o intervalo de envio de dados:");
+            var tempoIntervaloSensoresSeg = Convert.ToInt32(Console.ReadLine());
            while (true)
             {
                 var info = SensorInfo.GenerateRandom();
 
                 var evento = new SensorInfoAlteradoEvent()
                 {
-                    BarragemId = 38,
+                    BarragemId = idBarragem,
                     HorarioMedicao = DateTime.Now,
                     Pressao = info.Pressao,
                     Temperatura = info.Temperatura,
@@ -24,9 +28,9 @@ namespace Sensor
                 };
 
                 bus.PublicarEvento<SensorInfoAlteradoEvent>(evento);
-                //ServicoInteg.Enviar(info);
+
                 Console.WriteLine(info.ToString());
-                System.Threading.Thread.Sleep(10000);
+                System.Threading.Thread.Sleep(tempoIntervaloSensoresSeg*1000);
             }
         }
     }

@@ -17,7 +17,7 @@ namespace SCA.SegCom.API.Consumer
         public Task Consume(ConsumeContext<AlertarCommand> context)
         {
             var accountSid = "ACfb396c64d2ff9806b464acd3d7802a2a";
-            var authToken = "8b5d23c75b7656c8b0ab0f711aae6bc5";
+            var authToken = "c06c0e00fe94ca3a242b512f427fb7d4";
             Twilio.TwilioClient.Init(accountSid, authToken);
 
             var to = new PhoneNumber("+5521980585439");
@@ -47,7 +47,7 @@ namespace SCA.SegCom.API.Consumer
 
 
                 //var apiKey = _configuration.GetSection("SENDGRID_API_KEY").Value;
-                var apiKey = "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";
+                var apiKey = "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";
                 var client = new SendGridClient(apiKey);
                 var emailFrom = new EmailAddress("tiago.peterson@gmail.com", "SCA");
                 List<EmailAddress> tos = new List<EmailAddress>
