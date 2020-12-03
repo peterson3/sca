@@ -80,7 +80,7 @@ namespace SCA.Ativos.API
                 c.IncludeXmlComments(caminhoXmlDoc);
             });
 
-            //services.AddDiscoveryClient(Configuration);
+            services.AddDiscoveryClient(Configuration);
 
 
             services.AddScoped<IAtivoRepository, AtivoRepository>();
@@ -139,7 +139,7 @@ namespace SCA.Ativos.API
             //app.UseCors("AllowAll");
 
 
-            //app.UseDiscoveryClient();
+            app.UseDiscoveryClient();
 
             app.UseRouting();
 

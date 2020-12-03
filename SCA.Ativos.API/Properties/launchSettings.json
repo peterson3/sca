@@ -10,12 +10,17 @@
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
     "SCA.Ativos.API": {
-      "commandName": "Project",
-      "launchBrowser": false,
+      "commandName": "Docker",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "https://localhost:44320;http://localhost:51220"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "publishAllPorts": true,
+      "useSSL": true
     }
   }
 }
